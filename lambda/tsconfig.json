@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es6",
+      "outDir": "./build",  // Compiled JS files will be output here
+      "rootDir": "./",      // Root directory for the TypeScript files
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true
+    },
+    "include": ["weather.ts"], // Include all TypeScript files in the lambda directory
+    "exclude": ["node_modules"] // Exclude node_modules from being compiled
+  }
+  

@@ -1,0 +1,22 @@
+{
+  "name": "weather-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function for fetching weather data",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && npm run copy-node-modules",
+    "copy-node-modules": "cp -r node_modules build/",
+    "watch": "tsc -w",
+    "start": "ts-node weather.ts"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1672.0",
+    "axios": "^1.7.3"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.143",
+    "@types/node": "^22.2.0",
+    "aws-sdk-mock": "^6.1.1",
+    "typescript": "^5.5.4"
+  }
+}
