@@ -2,6 +2,8 @@
 ## Overview
 This is a simple app to give current weather conditions and forecasts based on user-provided latitude and longitude coordinates. It also logs user activity to potentially analyze behavior and usage trends. It's built using AWS services such as Lambda, S3, API Gateway, and CDK (Cloud Development Kit).
 
+###### NOTE: The data right now is just the raw data from the OpenWeatherMap API. To make a more robust service, we would create different routes that fetch and return different data responses.  For example, we could make calls just for the current weather, or 4 day forecast. I would put these 2 calls behind a `/current` route and a `/daily` with API Gateway which then adjusts our API call parameters to OpenWeatherMap.
+
 ## AWS CDK
 I went with AWS CDK for the backend because it simplifies the management of Infrastructure as Code and allows for flexibility without having to meander around in the AWS console to modify resources. I like it especially when you don't have a huge DevOps structured team to back you up.
 
