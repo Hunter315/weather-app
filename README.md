@@ -100,3 +100,18 @@ Since it is in memory, it is high performance and allows for flexbile data struc
 4. Data tracking in Lambda
  - Log requests with lat&lon, timestamp, cache hits/misses in Cloudwatch
  - Store usage data in Redshift or S3 for analysis.
+
+
+### Further Consideration
+##### Handling High traffic scenarios
+- Auto Scaling Groups on Lambdas
+- Redis caching reduces load on external api
+- API Gateway Rate Limiting
+- Monitor and Alerting via CloudWatch Alarms to detect early issues
+
+##### Cache failures and API failure
+ - Implement retries with backoff exponentially in the Lambda Function
+ - Consider serving last known good data from redis or s3
+ - scale redis using redis clustering to distribute data across multiple nodes
+ - eviction policy (might not need this since TTL is only ten minutes, unless this because the most used weather app in the world) on LRU data
+ - Consider Multi-AZ replication for failover protection and promote a replica or restore from backup.
