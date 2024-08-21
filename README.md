@@ -75,3 +75,28 @@ We could use Web Application Firewall to protect against some common attacks.
 Since we use s3, we would need to use Athena to query the s3 logs. We could then be able to know where the most popular locations are, the weather condition change stats, and when users are most active. Amazon Quicksight could then help us with creating dashboards and visualization on that data.
 
 We could use AWS Glue to clean the data, then send it to Lake Formation or Redshift for more complex analysis. 
+
+
+
+## EDIT: IMPORTANT
+Looking back over this before we chat I am thinking that there are some interesting design decisions here to say the least ( I unfortunately got covid, I will attribute it to that :D ). If I were to build this app right now, I would use API Gateway's caching mechanism before hitting the lambda every time. That would speed things up significantly. Then you just have to set your Cache TTL policy and you're good to go. Then there are a few ways you can still capture user data along with this caching, since the requests won't hit the lambda. 
+
+#### Lambda Authorizer
+Lambda Authorizers usualyl is for handling auth with a bearer token or some such thing, but we could utilize one in this case to just grab the request parameters and user data to log it. 
+
+#### Cloudwatch
+We can utilize Cloudwatch on the API Gateway to see every request coming in and grab the data from there using Cloudwatch Logs: https://docs.aws.amazon.com/apigateway/latest/developerguide/monitoring-cloudwatch.html#:~:text=You%20can%20monitor%20API%20execution%20by%20using%20CloudWatch%2C,how%20your%20web%20application%20or%20service%20is%20performing.
+
+### Another notable mention here should be Redis for caching our content
+Since it is in memory, it is high performance and allows for flexbile data structuring.  It is very scalable. Redis is the most robust option of all the proposed items here. I wouldn't use Dynamo or S3, unless I was a startup and REALLY tight on money, since redis can be slightly more expensive in this use-case scenario.
+
+### App Flow
+1. Request through API Gateway
+2. REquest directed to Lambda Function
+3. Check for cache hit in Redis
+    - if hit, retrieive data from Redis and return it to API Gateway
+    - if miss, fetch the data from OpenWeatherMap API, store it in Redis, return to API Gateway
+  
+4. Data tracking in Lambda
+ - Log requests with lat&lon, timestamp, cache hits/misses in Cloudwatch
+ - Store usage data in Redshift or S3 for analysis.
