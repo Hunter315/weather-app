@@ -108,6 +108,7 @@ Since it is in memory, it is high performance and allows for flexbile data struc
 - Redis caching reduces load on external api
 - API Gateway Rate Limiting
 - Monitor and Alerting via CloudWatch Alarms to detect early issues
+- lat/lon normalization for fewer cache entries and more clustered locations.
 
 ##### Cache failures and API failure
  - Implement retries with backoff exponentially in the Lambda Function
